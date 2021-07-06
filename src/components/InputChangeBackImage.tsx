@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const InputBlock = styled.div`
+  
   position: fixed;
   left: 5px;
   top: 5px;
@@ -21,6 +22,7 @@ const InputBlock = styled.div`
 
 type InputChangeBackImagePropsType = {
   onEnterHandler: (value: string) => void
+  setBackGroundColor: (value: string | null) => void
 }
 
 const InputChangeBackImage = (props: InputChangeBackImagePropsType) => {
@@ -33,6 +35,7 @@ const InputChangeBackImage = (props: InputChangeBackImagePropsType) => {
            onKeyPress={ (e) => {
              if (e.key === 'Enter') {
                props.onEnterHandler(e.currentTarget.value)
+               props.setBackGroundColor(null)
                setInpValue('')
              }
            }}/>
