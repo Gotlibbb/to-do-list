@@ -46,5 +46,5 @@ const appSlice = createSlice(
   }
 )
 
-export const { toggleTaskListMW, toggleLoginMW, toggleErrorMW } = appSlice.actions
+export const { toggleTaskListMW, toggleLoginMW, toggleErrorMW, setCurrentTaskListId } = appSlice.actions
 export default appSlice.reducer

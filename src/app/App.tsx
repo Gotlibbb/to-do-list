@@ -5,6 +5,7 @@ import { ChangeBackGroundColor } from '../components/ChangeBackGroundColor'
 import { ModalWindowTaskListContainer } from '../features/tasksList/ModalWindowTaskListContainer'
 import { InputAddTaskListContainer } from '../components/inputAddTaskList/InputAddTaskListContainer'
 import { useAppSelector } from '../helpers/hooks'
+import { TasksListsContainer } from '../features/tasksList/TasksListsContainer'
 
 type AppContainerPropsType = {
   imUrl: string | null
@@ -51,12 +52,12 @@ const App = () => {
     {taskListMW && <ModalWindowTaskListContainer/>}
 
     {showThemeManipulation || <>
-    <ChangeBackGroundColor setImUrlToNull={setImUrl} activeColor={backGroundColor} onClickEvent={setBackGroundColor}/>
-    <InputChangeBackImage setBackGroundColor={setBackGroundColor} onEnterHandler={setImUrl}/>
+      <ChangeBackGroundColor setImUrlToNull={setImUrl} activeColor={backGroundColor} onClickEvent={setBackGroundColor}/>
+      <InputChangeBackImage setBackGroundColor={setBackGroundColor} onEnterHandler={setImUrl}/>
     </>}
 
     <InputAddTaskListContainer/>
-    {/* <TasksListsContainer/> */}
+    <TasksListsContainer/>
   </AppContainer>
 }
 

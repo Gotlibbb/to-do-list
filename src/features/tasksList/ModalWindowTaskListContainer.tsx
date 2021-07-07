@@ -2,11 +2,12 @@ import styled from 'styled-components'
 import { ModalWindow } from '../../components/ModalWindow'
 import changeTitle from '../../components/icon/icon-ink.png'
 import { useAppDispatch, useAppSelector } from '../../helpers/hooks'
-import { addTask, TasksStateType } from '../task/tasksSlice'
+import { addTask, changeTaskTitle, removeTask, setTaskStatus, TasksStateType } from '../task/tasksSlice'
 import { toggleTaskListMW } from '../../app/appSlice'
 import { TaskListType, TaskPriorities, TaskStatuses, TaskType } from '../../helpers/allTypes'
 import { useState } from 'react'
 import { v1 } from 'uuid'
+import { changeTaskListTitle } from './tasksListsSlice'
 
 // Task
 
@@ -50,9 +51,14 @@ const TasksBlock = styled.div`
 `
 
 type ModalWindowTaskListPropsType = {
+  changeTaskListTitle: (id: string, taskListTitle: string) => void
+
   tasks: TaskType[]
   taskList: TaskListType | undefined
-  addTask: (task: string) => void
+  addTask: (taskTitle: string) => void
+  removeTask: (task: TaskType) => void
+  setTaskStatus: (task: TaskType, status: TaskStatuses) => void
+  changeTaskTitle: (task: TaskType, taskTitle: string) => void
 }
 
 const ModalWindowTaskList = (props: ModalWindowTaskListPropsType) => {
@@ -60,14 +66,18 @@ const ModalWindowTaskList = (props: ModalWindowTaskListPropsType) => {
 
   return <AddTaskListBlock>
     <AddTaskListTitleBlock>
-      <span>{props.taskList?.title || 'Test Task list Title'}</span>
-      <img src={changeTitle} alt="change"/>...
+      <div>{props.taskList?.title || 'Test Task list Title'}</div>
+      <img src={changeTitle} alt="change" onClick={() => props.changeTaskListTitle((props.taskList?.id || ''), 'test change taskList title')}/>...
     </AddTaskListTitleBlock>
     <input type="text"
            onChange={e => setInValue(e.target.value)}
            value={inValue} onKeyPress={e => e.key === 'Enter' && props.addTask(inValue)}/>
     <TasksBlock>
-      {props.tasks.map(t => <div key={t.id}> {t.title} </div>)}
+      {props.tasks && props.tasks.map(t => <div key={t.id}> {t.title} <button onClick={() => props.removeTask(t)}>x</button>
+        <span onClick={() => props.changeTaskTitle(t, 'test change title task')}> \...</span>
+        <button
+          onClick={() => props.setTaskStatus(t, TaskStatuses.Completed)}> \/ { t.status }</button>
+      </div>)}
     </TasksBlock>
   </AddTaskListBlock>
 }
@@ -94,16 +104,36 @@ const ModalWindowTaskListContainer = () => {
         description: 'description',
         order: 123,
         TaskListId: currentTaskListId,
-        priority: TaskPriorities.Hi,
+        priority: TaskPriorities.Middle,
         startDate: '01.01.01',
-        status: TaskStatuses.Completed,
+        status: TaskStatuses.New,
         title: title
       }
     }))
   }
 
+  const changeTaskListTitleHandler = (id: string, title: string) => {
+    dispatch(changeTaskListTitle({ id, title }))
+  }
+
+  const changeTaskTitleHandler = (task: TaskType, newTaskTitle: string) => {
+    dispatch(changeTaskTitle({ task, newTaskTitle }))
+  }
+  const removeTaskHandler = (task: TaskType) => {
+    dispatch(removeTask({ task }))
+  }
+  const setTaskStatusHandler = (task: TaskType, status: TaskStatuses) => {
+    dispatch(setTaskStatus({ task, status }))
+  }
+
   return <ModalWindow closeModalWindow={closeModalWindow}>
-    <ModalWindowTaskList addTask ={addTaskHandler} taskList={currentTaskList} tasks={tasks[currentTaskListId]}/>
+    <ModalWindowTaskList changeTaskListTitle={changeTaskListTitleHandler}
+                         changeTaskTitle={changeTaskTitleHandler}
+                         removeTask={removeTaskHandler}
+                         setTaskStatus={setTaskStatusHandler}
+                         addTask={addTaskHandler}
+                         taskList={currentTaskList}
+                         tasks={tasks[currentTaskListId]}/>
   </ModalWindow>
 }
 

@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FilterValuesType, RequestStatusType, TaskListType, TaskListTypeApi } from '../../helpers/allTypes'
 
 const initialState: TaskListType[] = [{
-  id: 'adsdasasd',
+  id: '12345',
   addedDate: 'adsdasasd',
   order: 1,
-  title: 'adsasdsad',
+  title: 'adsdasasd',
   filter: 'all',
   entityStatus: 'idle'
 }]
@@ -19,8 +19,8 @@ const tasksListsSlice = createSlice(
         const newTaskList: TaskListType = { ...action.payload, filter: 'all', entityStatus: 'idle' }
         return [newTaskList, ...state]
       },
-      removeTaskList (state, action: PayloadAction<{ id: string }>) {
-        state.filter(tl => tl.id !== action.payload.id)
+      removeTaskList (state, action: PayloadAction<{ taskList: TaskListType }>) {
+        return state = state.filter(tl => tl.id !== action.payload.taskList.id)
       },
       changeTaskListTitle (state, action: PayloadAction<{ id: string, title: string }>) {
         state.map(tl => (tl.id === action.payload.id) && (tl.title = action.payload.title))
