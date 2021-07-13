@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { addTask } from '../features/task/tasksSlice'
 import { addTaskList } from '../features/tasksList/tasksListsSlice'
 
 export type AppStateType = {

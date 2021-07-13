@@ -1,26 +1,19 @@
 import InputAddTaskList from './InputAddTaskList'
 import { toggleTaskListMW } from '../../app/appSlice'
-import { useAppDispatch } from '../../helpers/hooks'
-import { addTaskList } from '../../features/tasksList/tasksListsSlice'
-import { v1 } from 'uuid'
+import { useAppDispatch, useAppSelector } from '../../helpers/hooks'
+import { addTaskListsTC } from '../../features/tasksList/tasksListsSlice'
+import React, { useCallback } from 'react'
 
 const InputAddTaskListContainer = () => {
   const dispatch = useAppDispatch()
+  const taskListCount = useAppSelector(s => s.tasksList.length)
 
   const onEnterHandler = (title: string) => {
     dispatch(toggleTaskListMW({ show: true }))
-    dispatch(addTaskList(
-      {
-        id: v1(),
-        addedDate: 'string',
-        order: 123,
-        title: title
-      }
-    ))
+    dispatch(addTaskListsTC(title))
   }
-  return <InputAddTaskList onEnterHandler={onEnterHandler}/>
+
+  return <InputAddTaskList taskListCount={taskListCount} onEnterHandler={onEnterHandler}/>
 }
 
-export {
-  InputAddTaskListContainer
-}
+export default React.memo(InputAddTaskListContainer)

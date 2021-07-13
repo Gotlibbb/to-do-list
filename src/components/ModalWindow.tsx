@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import exit from './icon/icon-cancel.png'
-import { ReactElement, useEffect } from 'react'
+import React, { ReactElement } from 'react'
+import IconComponent from './icon/IconComponent'
 
 const ModalContainer = styled.div`
   display: flex;
@@ -11,19 +11,23 @@ const ModalContainer = styled.div`
   width: 100vw;
   top: 0;
   left: 0;
-  //background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(0.3rem);
-
+  backdrop-filter: blur(0.5rem);
 `
 const Window = styled.div`
+  position: static;
   border-radius: 10px;
-  width: 608px;
+  width: 45vw;
+  min-width: 350px;
   min-height: 300px;
+  max-height: 90vh;
 
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  overflow-y: auto;
   background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6));
-  backdrop-filter: blur(0.5rem);
-  animation: show-modal 0.3s forwards;
-
+  animation: show-modal 0.5s forwards;
   @keyframes show-modal {
     0% {
       opacity: 0;
@@ -34,48 +38,21 @@ const Window = styled.div`
       transform: translateY(0);
     }
   }
-
 `
 const Out = styled.span`
-
   position: absolute;
-  right: 1.5rem;
-  top: 1.5rem;
-  
-  opacity: 0.5;
-
-  img {
-    width: 16px;
-
-  }
-
-  *:hover {
-    opacity: 0.4;
-    cursor: pointer;
-  }
-
+  right: 2rem;
+  top: 2rem;
 `
-
-const ModalWindow = (props: {children: ReactElement, closeModalWindow: () => void }) => {
-  // useEffect(() => {
-  //   document.addEventListener('keydown', props.closeModalWindow)
-  //
-  //   return () => {
-  //     document.removeEventListener('keydown', props.closeModalWindow)
-  //   }
-  // }, [])
-
-  return <ModalContainer >
+const ModalWindow = (props: { children: ReactElement, closeModalWindow: () => void }) => {
+  return <ModalContainer>
     <Window>
-      <Out onClick={props.closeModalWindow}
-           onKeyDown={e => e.key === 'Esc' && props.closeModalWindow}>
-        <img src={exit} alt="exit"/>
+      <Out onClick={props.closeModalWindow}>
+        <IconComponent iconType={'cancel'}/>
       </Out>
       {props.children}
     </Window>
   </ModalContainer>
 }
 
-export {
-  ModalWindow
-}
+export default React.memo(ModalWindow)

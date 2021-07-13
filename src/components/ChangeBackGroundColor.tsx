@@ -6,13 +6,14 @@ const ChangeBackGroundColorBlock = styled.div`
   right: 5px;
   top: 5px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
 
   div:active {
     box-shadow: none
   }
   div {
+    margin-right: 5px;
     height: 50px;
     width: 50px;
     border-radius: 12.5px;
@@ -40,12 +41,14 @@ const ChangeBackGroundColorBlock = styled.div`
     ${(props: {activeColor: string | null}) => props.activeColor === '#97D8C4' && css`box-shadow: none`}
   }
 `
+
 type ChangeBackGroundColorPropsType = {
   onClickEvent: (color: string | null) => void
   activeColor: string | null
   setImUrlToNull: (val: null) => void
 }
-export const ChangeBackGroundColor = (props: ChangeBackGroundColorPropsType) => {
+
+const ChangeBackGroundColor = (props: ChangeBackGroundColorPropsType) => {
   return <ChangeBackGroundColorBlock activeColor={props.activeColor}>
     <div className={'black'} onClick={() => {
       props.onClickEvent('black')
@@ -65,3 +68,5 @@ export const ChangeBackGroundColor = (props: ChangeBackGroundColorPropsType) => 
     }}> </div>
   </ChangeBackGroundColorBlock>
 }
+
+export default React.memo(ChangeBackGroundColor)

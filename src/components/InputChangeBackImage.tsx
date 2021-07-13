@@ -2,19 +2,19 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const InputBlock = styled.div`
-  
-  position: fixed;
-  left: 5px;
-  top: 5px;
+  position: absolute;
+  left: 10px;
+  top: 15px;
   
   input:focus {
     box-shadow: 0 0.1em 0.2em 2px rgba(34, 60, 80, 0.2) inset;
   }
   input {
+    font-size: 15px;
     padding: 5px 5px;
     border: none;
     border-radius: 2rem;
-    width: 100px;
+    width: 120px;
     outline: none;
     box-shadow: 0 0.1em 0.2em 1px rgba(34, 60, 80, 0.2) inset;
   }
