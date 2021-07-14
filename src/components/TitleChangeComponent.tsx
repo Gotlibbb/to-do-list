@@ -9,14 +9,15 @@ const Input = styled.input`
   &:focus {
     border-color: black;
   }
-    font-family: 'Roboto', sans-serif;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    border-bottom: 1px solid #5f656a;
-    width: 66%;
-    font-size: 2rem;
-    margin: -1.5px -2px ;
+
+  font-family: 'Roboto', sans-serif;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid #5f656a;
+  width: 66%;
+  font-size: 2rem;
+  margin: -1.5px -2px;
 
 `
 
@@ -32,7 +33,10 @@ const TitleChangeComponent = (props: TaskTitleChangeComponentPropsType) => {
     props.updateTitle(inVal)
     props.hidden()
   }
-  return <Input autoFocus={true} type="text" value={inVal} onChange={e => setInVal(e.target.value)} onKeyPress={e => e.key === 'Enter' && onKeyPress()} />
+
+  return <Input autoFocus={true} type="text" value={inVal} onChange={e => setInVal(e.target.value)}
+                onKeyPress={e => (e.key === 'Enter' && onKeyPress())}
+                onBlur={props.hidden}/>
 }
 
 export default React.memo(TitleChangeComponent)

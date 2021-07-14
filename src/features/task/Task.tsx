@@ -4,31 +4,31 @@ import IconComponent from '../../components/icon/IconComponent'
 import React, { useEffect, useState } from 'react'
 import Checkbox from '../../components/Checkbox'
 import TitleChangeComponent from '../../components/TitleChangeComponent'
-import { slideInDown } from 'react-animations'
+import { fadeIn } from 'react-animations'
 
-const slideInDownAnimation = keyframes`${slideInDown}`
+const fadeInAnimation = keyframes`${fadeIn}`
 
 const TaskBlock = styled.div`
-  animation: 0.3s ${slideInDownAnimation} ;
+  animation: 0.3s ${fadeInAnimation};
   display: flex;
-  ${(props: {preview?: boolean}) => props.preview ? css`margin: 10px 0 10px 0;` : css`margin: 15px 0 15px 0;`}
+  ${(props: { preview?: boolean }) => props.preview ? css`margin: 10px 0 10px 0;` : css`margin: 15px 0 15px 0;`}
   justify-content: space-between;
 
   .buttonBlock {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    ${(props: {preview?: boolean}) => props.preview ? css`width: 55px;` : css`width: 90px;`}
+    ${(props: { preview?: boolean }) => props.preview ? css`width: 55px;` : css`width: 90px;`}
   }
 
   span, s {
     width: 90%;
     margin-right: 5px;
-    ${(props: {preview?: boolean}) => props.preview ? css`font-size: 1.3rem;` : css`font-size: 1.5rem;`}
+    ${(props: { preview?: boolean }) => props.preview ? css`font-size: 1.3rem;` : css`font-size: 1.5rem;`}
   }
 
   input {
-    width: 70%;
+    width: 100%;
     font-size: 1.5rem;
   }
 `
@@ -62,15 +62,15 @@ const Task = (props: TaskPropsType) => {
 
   return <TaskBlock preview={props.preview}>
     {(!props.preview && showChangeIn && <TitleChangeComponent
-                                            hidden={() => setShowChangeIn(false)}
-                                            initTitle={props.task.title}
-                                            updateTitle={changeTask}/>) ||
+      hidden={() => setShowChangeIn(false)}
+      initTitle={props.task.title}
+      updateTitle={changeTask}/>) ||
     (checkbox ? <s>{props.task.title}</s> : <span>{props.task.title}</span>)}
-    <div className={'buttonBlock'}>
+    {!showChangeIn && <div className={'buttonBlock'}>
       <Checkbox checked={checkbox} changeStatus={changeStatus} id={props.task.id}/>
       <IconComponent iconType={'delete'} onClickEvent={() => props.removeTask(props.task)}/>
       {!props.preview && <IconComponent iconType={'change'} onClickEvent={() => setShowChangeIn(true)}/>}
-    </div>
+    </div>}
   </TaskBlock>
 }
 

@@ -50,12 +50,12 @@ type ChangeBackGroundColorPropsType = {
 
 const ChangeBackGroundColor = (props: ChangeBackGroundColorPropsType) => {
   return <ChangeBackGroundColorBlock activeColor={props.activeColor}>
-    <div className={'black'} onClick={() => {
-      props.onClickEvent('black')
-      props.setImUrlToNull(null)
-    }}> </div>
     <div className={'white'} onClick={() => {
       props.onClickEvent('#e2e2e2')
+      props.setImUrlToNull(null)
+    }}> </div>
+    <div className={'black'} onClick={() => {
+      props.onClickEvent('black')
       props.setImUrlToNull(null)
     }}> </div>
     <div className={'yellow'} onClick={() => {

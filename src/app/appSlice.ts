@@ -5,6 +5,7 @@ export type AppStateType = {
   currentTaskListId: string
   modalWindowHandler: {
     taskListMW: boolean
+    deleteWarningMW: boolean
     loginMW: boolean
     errorMW: boolean
   }
@@ -14,6 +15,7 @@ const initialState: AppStateType = {
   currentTaskListId: '',
   modalWindowHandler: {
     taskListMW: false,
+    deleteWarningMW: false,
     loginMW: false,
     errorMW: false
   }
@@ -30,6 +32,9 @@ const appSlice = createSlice(
       toggleTaskListMW (state, action: PayloadAction<{ show: boolean }>) {
         state.modalWindowHandler.taskListMW = action.payload.show
       },
+      toggleDeleteWarningMW (state, action: PayloadAction<{ show: boolean }>) {
+        state.modalWindowHandler.deleteWarningMW = action.payload.show
+      },
       toggleLoginMW (state, action: PayloadAction<{ show: boolean }>) {
         state.modalWindowHandler.loginMW = action.payload.show
       },
@@ -45,5 +50,5 @@ const appSlice = createSlice(
   }
 )
 
-export const { toggleTaskListMW, toggleLoginMW, toggleErrorMW, setCurrentTaskListId } = appSlice.actions
+export const { toggleTaskListMW, toggleLoginMW, toggleErrorMW, setCurrentTaskListId, toggleDeleteWarningMW } = appSlice.actions
 export default appSlice.reducer

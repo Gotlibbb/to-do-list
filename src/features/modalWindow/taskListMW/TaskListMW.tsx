@@ -58,7 +58,7 @@ type ModalWindowTaskListPropsType = {
   taskList: TaskListType | undefined
   addTask: (taskTitle: string) => void
   removeTask: (task: TaskType) => void
-  removeTaskList: (taskListId: string) => void
+  removeTaskListWarning: () => void
   updateTask: (taskListId: string, taskId: string, model: DomainUpdateTaskModelType) => void
 }
 
@@ -79,11 +79,11 @@ const TaskListMW = (props: ModalWindowTaskListPropsType) => {
     <TaskListTitleBlock>
       <div className={'taskListTitle'}>
         <IconComponent iconType={'change'} onClickEvent={() => setShowChangeIn(true)}/>
-        <IconComponent iconType={'delete'} onClickEvent={() => props.removeTaskList(props.taskList?.id || '')}/>
+        <IconComponent iconType={'delete'} onClickEvent={() => props.removeTaskListWarning()}/>
         {showChangeIn ? <>
             <TitleChangeComponent initTitle={props.taskList?.title || ''}
-                                              updateTitle={changeTaskListTitle}
-                                              hidden={() => setShowChangeIn(false)}/>
+                                  updateTitle={changeTaskListTitle}
+                                  hidden={() => setShowChangeIn(false)}/>
           </> :
           <>
             <h2>{props.taskList?.title} </h2>

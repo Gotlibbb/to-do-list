@@ -22,7 +22,7 @@ const InputBlock = styled.div`
   
   ${(props: { taskListCount: number }) => props.taskListCount > 0 ?
           css`
-              animation: up-input 0.4s forwards;
+              margin-top: 80px;
           ` :
           css`
               animation: down-input 0.4s forwards;

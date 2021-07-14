@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import React, { ReactElement } from 'react'
-import IconComponent from './icon/IconComponent'
+import IconComponent from '../../components/icon/IconComponent'
+import { useKeyHandler } from '../../helpers/hooks'
 
 const ModalContainer = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const ModalContainer = styled.div`
   backdrop-filter: blur(0.5rem);
 `
 const Window = styled.div`
-  position: static;
+  position: absolute;
   border-radius: 10px;
   width: 45vw;
   min-width: 350px;
@@ -44,7 +45,8 @@ const Out = styled.span`
   right: 2rem;
   top: 2rem;
 `
-const ModalWindow = (props: { children: ReactElement, closeModalWindow: () => void }) => {
+const ModalWindow = (props: { children?: ReactElement, closeModalWindow: () => void }) => {
+  useKeyHandler(() => props.closeModalWindow(), 'Escape')
   return <ModalContainer>
     <Window>
       <Out onClick={props.closeModalWindow}>

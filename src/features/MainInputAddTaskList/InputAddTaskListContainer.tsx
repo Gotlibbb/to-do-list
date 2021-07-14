@@ -1,8 +1,8 @@
 import InputAddTaskList from './InputAddTaskList'
 import { toggleTaskListMW } from '../../app/appSlice'
 import { useAppDispatch, useAppSelector } from '../../helpers/hooks'
-import { addTaskListsTC } from '../../features/tasksList/tasksListsSlice'
-import React, { useCallback } from 'react'
+import { addTaskListsTC } from '../tasksList/tasksListsSlice'
+import React from 'react'
 
 const InputAddTaskListContainer = () => {
   const dispatch = useAppDispatch()

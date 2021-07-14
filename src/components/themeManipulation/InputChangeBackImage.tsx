@@ -29,13 +29,13 @@ const InputChangeBackImage = (props: InputChangeBackImagePropsType) => {
   const [inpValue, setInpValue] = useState<string>('')
   return <InputBlock>
     <input type='text'
-           placeholder='Past url image... '
+           placeholder='Url pic or color... '
            value={ inpValue }
            onChange={ e => setInpValue(e.target.value) }
            onKeyPress={ (e) => {
              if (e.key === 'Enter') {
                props.onEnterHandler(e.currentTarget.value)
-               props.setBackGroundColor(null)
+               props.setBackGroundColor(e.currentTarget.value.length < 9 ? e.currentTarget.value : '#e2e2e2')
                setInpValue('')
              }
            }}/>
