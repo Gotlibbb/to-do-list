@@ -10,24 +10,24 @@ const instance = axios.create({
 })
 
 export type ApiResponseType<T = {}> = {
-    resultCode: number
-    messages: Array<string>
-    data: T
+  resultCode: number
+  messages: Array<string>
+  data: T
 }
 
 export type ApiTaskType = {
-    totalCount: number
-    error: string | number
-    items: TaskType[]
+  totalCount: number
+  error: string | number
+  items: TaskType[]
 }
 
 export type TaskModelType = {
-    title: string
-    description: string
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
+  title: string
+  description: string
+  status: TaskStatuses
+  priority: TaskPriorities
+  startDate: string
+  deadline: string
 }
 
 export const todoApi = {
@@ -58,16 +58,16 @@ export const todoApi = {
 }
 
 export type loginTypeApi = {
-    email: string
-    password: string
-    rememberMe: boolean
-    captcha?: boolean
+  email: string
+  password: string
+  rememberMe: boolean
+  captcha?: boolean
 }
 
 export type authMeAPI = {
-    id: number
-    email: string
-    login: string
+  id: number
+  email: string
+  login: string
 }
 export const authApi = {
   login (login: loginTypeApi) {

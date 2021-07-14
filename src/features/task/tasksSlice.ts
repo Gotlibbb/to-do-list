@@ -3,38 +3,46 @@ import { DomainUpdateTaskModelType, TaskListTypeApi, TaskType } from '../../help
 import { addTaskList, removeTaskList, setTaskListsTC } from '../tasksList/tasksListsSlice'
 import { TaskModelType, todoApi } from '../../api/todoApi'
 import { AppRootStateType } from '../../store'
+import { setError, setStatus } from '../../app/appSlice'
+import { tryCatchHandler } from '../../helpers/helper'
 
 export const setTasksTC = createAsyncThunk<void, { taskListId: string }>(
   'tasks/setTasks',
   async (actions, { dispatch }) => {
+    dispatch(setStatus({ status: 'loading' }))
     const taskListId = actions.taskListId
     const response = await todoApi.getTasks(taskListId)
     const tasks = response.data.items
-    dispatch(setTasks({ tasks, taskListId }))
+    try {
+      dispatch(setTasks({ tasks, taskListId }))
+    } catch (error) {
+      dispatch(setError({ error: error.message }))
+      dispatch(setStatus({ status: 'failed' }))
+    }
   }
 )
 
 export const addTaskTC = createAsyncThunk<void, { title: string, taskListId: string }>(
   'tasks/addTask',
-  async (actions, thunkAPI) => {
+  async (actions, { dispatch }) => {
     const response = await todoApi.postTasks(actions.title, actions.taskListId)
     const task = response.data.data.item
-    thunkAPI.dispatch(addTask({ task }))
+    tryCatchHandler(dispatch, response, addTask({ task }))
   }
 )
 
 export const removeTaskTC = createAsyncThunk<void, { taskId: string, taskListId: string }>(
   'tasks/removeTask',
-  async (actions, thunkAPI) => {
-    await todoApi.deleteTasks(actions.taskListId, actions.taskId)
-    thunkAPI.dispatch(removeTask({ todoListId: actions.taskListId, taskId: actions.taskId }))
+  async (actions, { dispatch }) => {
+    const response = await todoApi.deleteTasks(actions.taskListId, actions.taskId)
+    tryCatchHandler(dispatch, response, removeTask({ todoListId: actions.taskListId, taskId: actions.taskId }))
   }
 )
 
 export const updateTaskTC = createAsyncThunk<void, { taskListId: string, taskId: string, model: DomainUpdateTaskModelType }, { state: AppRootStateType }>(
   'tasks/updateTask',
-  async (actions, thunkAPI) => {
-    const state = thunkAPI.getState()
+  async (actions, { dispatch, getState }) => {
+    const state = getState()
     const task = state.tasks[actions.taskListId].find(t => t.id === actions.taskId)
     console.log(task)
     if (!task) {
@@ -49,8 +57,12 @@ export const updateTaskTC = createAsyncThunk<void, { taskListId: string, taskId:
       priority: task.priority,
       ...actions.model
     }
-    await todoApi.putTasks(actions.taskListId, actions.taskId, initTask)
-    thunkAPI.dispatch(updateTask({ taskListId: actions.taskListId, taskId: actions.taskId, model: actions.model }))
+    const response = await todoApi.putTasks(actions.taskListId, actions.taskId, initTask)
+    tryCatchHandler(dispatch, response, updateTask({
+      taskListId: actions.taskListId,
+      taskId: actions.taskId,
+      model: actions.model
+    }))
   }
 )
 
@@ -104,4 +116,5 @@ export const {
   setTasks,
   updateTask
 } = tasksSlice.actions
+
 export default tasksSlice.reducer

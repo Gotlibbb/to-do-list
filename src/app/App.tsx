@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import InputChangeBackImage from '../components/themeManipulation/InputChangeBackImage'
-import InputAddTaskListContainer from '../features/MainInputAddTaskList/InputAddTaskListContainer'
+import InputAddTaskListContainer from '../features/mainInputAddTaskList/InputAddTaskListContainer'
 import { useAppSelector } from '../helpers/hooks'
 import TaskListMWContainer from '../features/modalWindow/taskListMW/TaskListMWContainer'
 import ChangeBackGroundColor from '../components/themeManipulation/ChangeBackGroundColor'
@@ -14,16 +14,8 @@ type AppContainerPropsType = {
 }
 
 const AppContainer = styled.div`
-  input::selection {
-    background: #b6afaf;
-  }
-
-  body::selection {
-    background: #b6afaf;
-  }
-
   ${(props: AppContainerPropsType) =>
-          (props.imUrl && props.imUrl.length > 10) ?
+          (props.imUrl && props.imUrl[props.imUrl.length - 4] === '.') ?
                   css`background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${props.imUrl}) fixed;` :
                   css`background: ${props.backGroundColor};`}
   background-size: cover;
@@ -51,7 +43,6 @@ const App = () => {
     <TasksListsContainer/>
     {taskListMW && <TaskListMWContainer/>}
     {deleteWarningMW && <DeleteTlWarning/>}
-
   </AppContainer>
 }
 

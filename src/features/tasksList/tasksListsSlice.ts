@@ -1,12 +1,20 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FilterValuesType, RequestStatusType, TaskListType, TaskListTypeApi } from '../../helpers/allTypes'
 import { todoApi } from '../../api/todoApi'
+import { setError, setStatus } from '../../app/appSlice'
+import { tryCatchHandler } from '../../helpers/helper'
 
 export const setTaskListsTC = createAsyncThunk(
   'taskList/setTaskList',
   async (_, { dispatch }) => {
+    dispatch(setStatus({ status: 'loading' }))
     const response = await todoApi.getTodos()
-    dispatch(setTaskLists(response.data))
+    try {
+      dispatch(setTaskLists(response.data))
+    } catch (error) {
+      dispatch(setError({ error: error.message }))
+      dispatch(setStatus({ status: 'failed' }))
+    }
     return response.data
   }
 )
@@ -15,24 +23,24 @@ export const addTaskListsTC = createAsyncThunk(
   'taskList/addTaskList',
   async (title: string, { dispatch }) => {
     const response = await todoApi.postTodos(title)
-    dispatch(addTaskList(response.data.data.item))
+    tryCatchHandler(dispatch, response, addTaskList(response.data.data.item))
   }
 )
 
 export const removeTaskListsTC = createAsyncThunk<void, { taskListId: string }>(
   'taskList/removeTaskList',
-  async (actions, thunkAPI) => {
-    await todoApi.deleteTodos(actions.taskListId)
-    thunkAPI.dispatch(removeTaskList({ taskListId: actions.taskListId }))
+  async (actions, { dispatch }) => {
+    const response = await todoApi.deleteTodos(actions.taskListId)
+    tryCatchHandler(dispatch, response, removeTaskList({ taskListId: actions.taskListId }))
   }
 )
 
 export const changeTaskListTitleTC = createAsyncThunk<void, { title: string, taskListId: string }>(
   'taskList/changeTaskListTitle',
-  async (actions, thunkAPI) => {
+  async (actions, { dispatch }) => {
     const [title, taskListId] = [actions.title, actions.taskListId]
-    await todoApi.putTodos(title, taskListId)
-    thunkAPI.dispatch(changeTaskListTitle({ title, id: taskListId }))
+    const response = await todoApi.putTodos(title, taskListId)
+    tryCatchHandler(dispatch, response, changeTaskListTitle({ title, id: taskListId }))
   }
 )
 
