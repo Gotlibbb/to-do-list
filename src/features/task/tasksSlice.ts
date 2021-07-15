@@ -14,6 +14,7 @@ export const setTasksTC = createAsyncThunk<void, { taskListId: string }>(
     const response = await todoApi.getTasks(taskListId)
     const tasks = response.data.items
     try {
+      dispatch(setStatus({ status: 'succeeded' }))
       dispatch(setTasks({ tasks, taskListId }))
     } catch (error) {
       dispatch(setError({ error: error.message }))
@@ -25,6 +26,7 @@ export const setTasksTC = createAsyncThunk<void, { taskListId: string }>(
 export const addTaskTC = createAsyncThunk<void, { title: string, taskListId: string }>(
   'tasks/addTask',
   async (actions, { dispatch }) => {
+    dispatch(setStatus({ status: 'loading' }))
     const response = await todoApi.postTasks(actions.title, actions.taskListId)
     const task = response.data.data.item
     tryCatchHandler(dispatch, response, addTask({ task }))
@@ -34,6 +36,7 @@ export const addTaskTC = createAsyncThunk<void, { title: string, taskListId: str
 export const removeTaskTC = createAsyncThunk<void, { taskId: string, taskListId: string }>(
   'tasks/removeTask',
   async (actions, { dispatch }) => {
+    dispatch(setStatus({ status: 'loading' }))
     const response = await todoApi.deleteTasks(actions.taskListId, actions.taskId)
     tryCatchHandler(dispatch, response, removeTask({ todoListId: actions.taskListId, taskId: actions.taskId }))
   }
@@ -44,7 +47,6 @@ export const updateTaskTC = createAsyncThunk<void, { taskListId: string, taskId:
   async (actions, { dispatch, getState }) => {
     const state = getState()
     const task = state.tasks[actions.taskListId].find(t => t.id === actions.taskId)
-    console.log(task)
     if (!task) {
       return
     }
@@ -57,6 +59,7 @@ export const updateTaskTC = createAsyncThunk<void, { taskListId: string, taskId:
       priority: task.priority,
       ...actions.model
     }
+    dispatch(setStatus({ status: 'loading' }))
     const response = await todoApi.putTasks(actions.taskListId, actions.taskId, initTask)
     tryCatchHandler(dispatch, response, updateTask({
       taskListId: actions.taskListId,

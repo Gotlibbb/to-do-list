@@ -1,13 +1,20 @@
 import styled from 'styled-components'
-import { DomainUpdateTaskModelType, TaskListType, TaskType } from '../../../helpers/allTypes'
+import { DomainUpdateTaskModelType, RequestStatusType, TaskListType, TaskType } from '../../../helpers/allTypes'
 import React, { useState } from 'react'
 import IconComponent from '../../../components/icon/IconComponent'
 import Task from '../../task/Task'
 import TitleChangeComponent from '../../../components/TitleChangeComponent'
+import Preloader from '../../../components/preloader/Preloader'
 
 const TaskListMWBlock = styled.div`
-  margin: 1.5rem;
+  margin: 2.1rem 1.5rem;
   min-height: 30vh;
+  .preloaderInMW{
+    position: fixed;
+    top: 0;
+    left:0;
+    width: 100%;
+  }
 `
 const TaskListTitleBlock = styled.div`
   .taskListTitle {
@@ -29,6 +36,9 @@ const TaskListTitleBlock = styled.div`
 `
 
 const AddTaskBlock = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
   input::placeholder {
     font-size: 2rem;
   }
@@ -45,6 +55,13 @@ const AddTaskBlock = styled.div`
     width: 70%;
     font-size: 2rem;
   }
+  .errorInMW{
+    position: fixed;
+    color: tomato;
+    top: 0;
+    left: 0;
+    font-size: 1.1rem;
+  }
 `
 const TasksBlock = styled.div`
   margin-top: 1.5rem;
@@ -59,7 +76,10 @@ type ModalWindowTaskListPropsType = {
   addTask: (taskTitle: string) => void
   removeTask: (task: TaskType) => void
   removeTaskListWarning: () => void
+  clearError: () => void
   updateTask: (taskListId: string, taskId: string, model: DomainUpdateTaskModelType) => void
+  error: string | null
+  serverStatus: RequestStatusType
 }
 
 const TaskListMW = (props: ModalWindowTaskListPropsType) => {
@@ -75,7 +95,8 @@ const TaskListMW = (props: ModalWindowTaskListPropsType) => {
     setInValue('')
   }
 
-  return <TaskListMWBlock>
+  return <TaskListMWBlock onClick={props.clearError}>
+    <div className={'preloaderInMW'}>{props.serverStatus === 'loading' && <Preloader/>}</div>
     <TaskListTitleBlock>
       <div className={'taskListTitle'}>
         <IconComponent iconType={'change'} onClickEvent={() => setShowChangeIn(true)}/>
@@ -97,6 +118,7 @@ const TaskListMW = (props: ModalWindowTaskListPropsType) => {
              placeholder={'Write task...'}
              onChange={e => setInValue(e.target.value)}
              value={inValue} onKeyPress={e => e.key === 'Enter' && addTask()}/>
+      {props.error && <div className={'errorInMW'}>{props.error}</div>}
     </AddTaskBlock>
 
     <TasksBlock>

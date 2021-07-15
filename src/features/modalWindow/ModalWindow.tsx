@@ -43,7 +43,7 @@ const Window = styled.div`
 const Out = styled.span`
   position: absolute;
   right: 2rem;
-  top: 2rem;
+  top: 2.4rem;
 `
 const ModalWindow = (props: { children?: ReactElement, closeModalWindow: () => void }) => {
   useKeyHandler(() => props.closeModalWindow(), 'Escape')

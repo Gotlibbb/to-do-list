@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { addTaskList } from '../features/tasksList/tasksListsSlice'
-
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+import { RequestStatusType } from '../helpers/allTypes'
 
 export type AppStateType = {
   app: {
@@ -39,7 +38,7 @@ const appSlice = createSlice(
       setStatus (state, action: PayloadAction<{ status: RequestStatusType }>) {
         state.app.status = action.payload.status
       },
-      setError (state, action: PayloadAction<{ error: string }>) {
+      setError (state, action: PayloadAction<{ error: string | null }>) {
         state.app.error = action.payload.error
       },
       setInitialized (state, action: PayloadAction<{ initialized: boolean }>) {

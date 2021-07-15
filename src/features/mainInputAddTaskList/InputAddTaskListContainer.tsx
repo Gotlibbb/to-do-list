@@ -1,5 +1,5 @@
 import InputAddTaskList from './InputAddTaskList'
-import { toggleTaskListMW } from '../../app/appSlice'
+import { setError, toggleTaskListMW } from '../../app/appSlice'
 import { useAppDispatch, useAppSelector } from '../../helpers/hooks'
 import { addTaskListsTC } from '../tasksList/tasksListsSlice'
 import React from 'react'
@@ -13,7 +13,9 @@ const InputAddTaskListContainer = () => {
     dispatch(addTaskListsTC(title))
   }
 
-  return <InputAddTaskList taskListCount={taskListCount} onEnterHandler={onEnterHandler}/>
+  return <InputAddTaskList taskListCount={taskListCount}
+                           setError={(error) => dispatch(setError({ error }))}
+                           onEnterHandler={onEnterHandler}/>
 }
 
 export default React.memo(InputAddTaskListContainer)

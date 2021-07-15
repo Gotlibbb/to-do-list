@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 
 const InputBlock = styled.div`
-  
+
   @keyframes down-input {
     0% {
       margin-top: 80px;
@@ -19,17 +19,16 @@ const InputBlock = styled.div`
       margin-top: 80px;
     }
   }
-  
+
   ${(props: { taskListCount: number }) => props.taskListCount > 0 ?
           css`
-              animation: up-input 0.2s forwards;
+            animation: up-input 0.2s forwards;
 
           ` :
           css`
-              animation: down-input 0.4s forwards;
+            animation: down-input 0.4s forwards;
           `
   }
-  
   ::placeholder {
     color: #818C99;
     opacity: 0.5;
@@ -53,6 +52,7 @@ const InputBlock = styled.div`
 type InputTaskListPropsType = {
   onEnterHandler: (title: string) => void
   taskListCount: number
+  setError: (error: string | null) => void
 }
 
 const InputAddTaskList = (props: InputTaskListPropsType) => {
@@ -63,10 +63,12 @@ const InputAddTaskList = (props: InputTaskListPropsType) => {
            value={localTitle}
            onChange={e => setLocalTitle(e.target.value)}
            onKeyPress={e => {
-             if (e.key === 'Enter') {
+             if (e.key === 'Enter' && localTitle.length < 99) {
                setLocalTitle('')
                props.onEnterHandler(e.currentTarget.value)
                e.currentTarget.blur()
+             } else if (localTitle.length > 99) {
+               props.setError('The length of the header exceeds 100, the header must be shorter!')
              }
            }}/>
   </InputBlock>

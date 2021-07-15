@@ -11,6 +11,7 @@ export const setTaskListsTC = createAsyncThunk(
     const response = await todoApi.getTodos()
     try {
       dispatch(setTaskLists(response.data))
+      dispatch(setStatus({ status: 'succeeded' }))
     } catch (error) {
       dispatch(setError({ error: error.message }))
       dispatch(setStatus({ status: 'failed' }))
@@ -22,6 +23,7 @@ export const setTaskListsTC = createAsyncThunk(
 export const addTaskListsTC = createAsyncThunk(
   'taskList/addTaskList',
   async (title: string, { dispatch }) => {
+    dispatch(setStatus({ status: 'loading' }))
     const response = await todoApi.postTodos(title)
     tryCatchHandler(dispatch, response, addTaskList(response.data.data.item))
   }
@@ -30,6 +32,7 @@ export const addTaskListsTC = createAsyncThunk(
 export const removeTaskListsTC = createAsyncThunk<void, { taskListId: string }>(
   'taskList/removeTaskList',
   async (actions, { dispatch }) => {
+    dispatch(setStatus({ status: 'loading' }))
     const response = await todoApi.deleteTodos(actions.taskListId)
     tryCatchHandler(dispatch, response, removeTaskList({ taskListId: actions.taskListId }))
   }
@@ -39,6 +42,7 @@ export const changeTaskListTitleTC = createAsyncThunk<void, { title: string, tas
   'taskList/changeTaskListTitle',
   async (actions, { dispatch }) => {
     const [title, taskListId] = [actions.title, actions.taskListId]
+    dispatch(setStatus({ status: 'loading' }))
     const response = await todoApi.putTodos(title, taskListId)
     tryCatchHandler(dispatch, response, changeTaskListTitle({ title, id: taskListId }))
   }

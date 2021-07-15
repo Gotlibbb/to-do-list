@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../../../helpers/hooks'
 import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from '../../task/tasksSlice'
-import { toggleDeleteWarningMW, toggleTaskListMW } from '../../../app/appSlice'
-import { DomainUpdateTaskModelType, TaskListType, TaskType } from '../../../helpers/allTypes'
+import { setError, toggleDeleteWarningMW, toggleTaskListMW } from '../../../app/appSlice'
+import { DomainUpdateTaskModelType, RequestStatusType, TaskListType, TaskType } from '../../../helpers/allTypes'
 import { changeTaskListTitleTC } from '../../tasksList/tasksListsSlice'
 import React, { useCallback } from 'react'
 import ModalWindow from '../ModalWindow'
@@ -12,6 +12,8 @@ const TaskListMWContainer = () => {
   const tasks = useAppSelector<TasksStateType>(state => state.tasks)
   const taskLists = useAppSelector<TaskListType[]>(state => state.tasksList)
   const currentTaskListId = useAppSelector<string>(state => state.app.currentTaskListId)
+  const status = useAppSelector<RequestStatusType>(state => state.app.app.status)
+  const error = useAppSelector<string | null>(state => state.app.app.error)
   const currentTaskList = taskLists.find(e => currentTaskListId === e.id)
 
   const closeModalWindow = () => {
@@ -23,14 +25,17 @@ const TaskListMWContainer = () => {
   const changeTaskListTitleHandler = (title: string, taskListId: string) => {
     dispatch(changeTaskListTitleTC({ title, taskListId }))
   }
+  const removeTaskListHandler = () => {
+    dispatch(toggleDeleteWarningMW({ show: true }))
+  }
+  const clearErrorHandler = () => {
+    dispatch(setError({ error: null }))
+  }
   const updateTaskHandler = useCallback((taskListId: string, taskId: string, model: DomainUpdateTaskModelType) => {
     dispatch(updateTaskTC({ taskListId, taskId, model }))
   }, [])
   const removeTaskHandler = useCallback((task: TaskType) => {
     dispatch(removeTaskTC({ taskId: task.id, taskListId: task.todoListId }))
-  }, [])
-  const removeTaskListHandler = useCallback(() => {
-    dispatch(toggleDeleteWarningMW({ show: true }))
   }, [])
 
   return <ModalWindow closeModalWindow={closeModalWindow}>
@@ -40,7 +45,11 @@ const TaskListMWContainer = () => {
                 removeTask={removeTaskHandler}
                 addTask={addTaskHandler}
                 taskList={currentTaskList}
-                tasks={tasks[currentTaskListId]}/>
+                tasks={tasks[currentTaskListId]}
+                error={error}
+                serverStatus={status}
+                clearError={clearErrorHandler}
+    />
   </ModalWindow>
 }
 
