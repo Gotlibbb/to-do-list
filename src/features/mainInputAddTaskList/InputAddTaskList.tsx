@@ -19,16 +19,10 @@ const InputBlock = styled.div`
       margin-top: 80px;
     }
   }
-
+  
   ${(props: { taskListCount: number }) => props.taskListCount > 0 ?
-          css`
-            animation: up-input 0.2s forwards;
-
-          ` :
-          css`
-            animation: down-input 0.4s forwards;
-          `
-  }
+          css`animation: up-input 0.2s forwards;` : css`animation: down-input 0.4s forwards;`}
+  
   ::placeholder {
     color: #818C99;
     opacity: 0.5;

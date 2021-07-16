@@ -26,6 +26,7 @@ const TaskListTitleBlock = styled.div`
     }
 
     h2 {
+      width: 80%;
       font-size: 2rem;
       margin: 0;
     }
@@ -99,8 +100,9 @@ const TaskListMW = (props: ModalWindowTaskListPropsType) => {
     <div className={'preloaderInMW'}>{props.serverStatus === 'loading' && <Preloader/>}</div>
     <TaskListTitleBlock>
       <div className={'taskListTitle'}>
-        <IconComponent iconType={'change'} onClickEvent={() => setShowChangeIn(true)}/>
+        {!showChangeIn && <> <IconComponent iconType={'change'} onClickEvent={() => setShowChangeIn(true)}/>
         <IconComponent iconType={'delete'} onClickEvent={() => props.removeTaskListWarning()}/>
+        </>}
         {showChangeIn ? <>
             <TitleChangeComponent initTitle={props.taskList?.title || ''}
                                   updateTitle={changeTaskListTitle}

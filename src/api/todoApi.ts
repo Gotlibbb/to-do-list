@@ -57,7 +57,7 @@ export const todoApi = {
   }
 }
 
-export type loginTypeApi = {
+export type LoginTypeApi = {
   email: string
   password: string
   rememberMe: boolean
@@ -70,7 +70,7 @@ export type authMeAPI = {
   login: string
 }
 export const authApi = {
-  login (login: loginTypeApi) {
+  login (login: LoginTypeApi) {
     return instance.post<ApiResponseType<{ UserId: number }>>('auth/login', login)
   },
   logout () {

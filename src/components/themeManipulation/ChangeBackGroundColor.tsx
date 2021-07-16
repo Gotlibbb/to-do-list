@@ -10,7 +10,7 @@ const ChangeBackGroundColorBlock = styled.div`
   justify-content: space-between;
 
   div:active {
-    box-shadow: none
+    box-shadow: 0 0.1em 0.2em 2px rgba(34, 60, 80, 0.4) inset;
   }
   div {
     margin-right: 5px;
@@ -18,7 +18,7 @@ const ChangeBackGroundColorBlock = styled.div`
     width: 50px;
     border-radius: 12.5px;
     margin-bottom: 3px;
-    box-shadow: -5px -5px 5px -5px rgba(0, 0, 0, 0.6) inset;
+    box-shadow: 0 0.1em 0.2em 2px rgba(34, 60, 80, 0.4);
   }
   
   .black {

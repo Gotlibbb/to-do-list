@@ -12,6 +12,7 @@ const fadeInAnimation = keyframes`${fadeIn}`
 const TaskListBlock = styled.div`
   min-height: 200px;
   min-width: 300px;
+  max-width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -70,7 +71,7 @@ const TaskList = (props: TaskListPrevPropsType) => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(setTasksTC({ taskListId: props.taskList.id }))
-  }, [])
+  }, [props.taskList.id])
 
   return <TaskListBlock inProcessTaskListId={props.inProcessTaskListId} taskListId={props.taskList.id}>
     <div>

@@ -3,14 +3,14 @@ import { AxiosResponse } from 'axios'
 import { ApiResponseType } from '../api/todoApi'
 import { setError, setStatus } from '../app/appSlice'
 
-export const tryCatchHandler = (dispatch: Dispatch, response: AxiosResponse<ApiResponseType<{}>>, reducer: { payload: any; type: string; }) => {
+export const tryCatchHandler = (dispatch: Dispatch, response: AxiosResponse<ApiResponseType<{}>>, reducer: { payload: any; type: string; }, firstVisit?: boolean) => {
   try {
     if (response.data.resultCode === 0) {
-      dispatch(setStatus({ status: 'idle' }))
       dispatch(reducer)
+      dispatch(setStatus({ status: 'idle' }))
     } else {
       if (response.data.messages.length) {
-        dispatch(setError({ error: response.data.messages[0] }))
+        firstVisit || dispatch(setError({ error: response.data.messages[0] }))
         dispatch(setStatus({ status: 'failed' }))
       }
     }

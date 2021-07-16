@@ -1,6 +1,19 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { addTaskList } from '../features/tasksList/tasksListsSlice'
 import { RequestStatusType } from '../helpers/allTypes'
+import { authApi } from '../api/todoApi'
+import { tryCatchHandler } from '../helpers/helper'
+import { setAuthorized } from '../features/login/loginSlice'
+
+export const initializedTC = createAsyncThunk(
+  'app/setInitialized',
+  async (_, { dispatch }) => {
+    dispatch(setStatus({ status: 'loading' }))
+    const response = await authApi.authMe()
+    dispatch(setInitialized({ initialized: true }))
+    tryCatchHandler(dispatch, response, setAuthorized({ authorized: true }), true)
+  }
+)
 
 export type AppStateType = {
   app: {
@@ -52,9 +65,6 @@ const appSlice = createSlice(
       },
       toggleDeleteWarningMW (state, action: PayloadAction<{ show: boolean }>) {
         state.modalWindowHandler.deleteWarningMW = action.payload.show
-      },
-      toggleErrorMW (state, action: PayloadAction<{ show: boolean }>) {
-        state.modalWindowHandler.errorMW = action.payload.show
       }
     },
 
@@ -68,7 +78,6 @@ const appSlice = createSlice(
 
 export const {
   toggleTaskListMW,
-  // toggleErrorMW,
   setCurrentTaskListId,
   toggleDeleteWarningMW,
   setStatus,

@@ -12,7 +12,7 @@ const InputBlock = styled.div`
 
   input {
     font-size: 15px;
-    padding: 5px 5px;
+    padding: 0.2rem 0.5rem;
     border: none;
     border-radius: 2rem;
     width: 120px;

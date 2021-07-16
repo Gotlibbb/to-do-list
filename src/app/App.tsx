@@ -7,9 +7,11 @@ import TaskListMWContainer from '../features/modalWindow/taskListMW/TaskListMWCo
 import ChangeBackGroundColor from '../components/themeManipulation/ChangeBackGroundColor'
 import TasksListsContainer from '../features/tasksList/TasksListsContainer'
 import DeleteTlWarning from '../features/modalWindow/warnings/DeleteTLWarning'
-import { setError } from './appSlice'
+import { initializedTC, setError } from './appSlice'
 import Preloader from '../components/preloader/Preloader'
 import { RequestStatusType } from '../helpers/allTypes'
+import { logoutTC } from '../features/login/loginSlice'
+import Login from '../features/login/Login'
 
 type AppContainerPropsType = {
   imUrl: string | null
@@ -27,18 +29,48 @@ const AppContainer = styled.div`
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-    .preloader{
+
+  .preloader {
     position: fixed;
     top: 0;
-    left:0;
+    left: 0;
     width: 100%;
   }
-  .error{
+
+  .error {
+    display: flex;
+    justify-content: center;
     position: fixed;
     color: tomato;
-    top: 0;
-    left: 25%;
-    font-size: 1.1rem;
+    top: 15px;
+    left: 0;
+    width: 100%;
+    font-weight: 800;
+    font-size: 1.4rem;
+  }
+  .login {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+  }
+  .logout {
+    
+  }
+  .logout:active {
+    box-shadow: 0 0.1em 0.2em 2px rgba(34, 60, 80, 0.4) inset;
+  }
+  .logout {
+    background-color: white;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    box-shadow: 0 0.1em 0.2em 2px rgba(34, 60, 80, 0.4);
+    font-weight: 800;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    font-size: 1rem;
   }
 `
 
@@ -51,10 +83,14 @@ const App = () => {
   const error = useAppSelector<string | null>(state => state.app.app.error)
   const errorMW = useAppSelector<boolean>(state => state.app.modalWindowHandler.errorMW)
   const mwShow = taskListMW || deleteWarningMW || errorMW
+  const initialized = useAppSelector<boolean>(state => state.app.app.initialized)
+  const authorized = useAppSelector(state => state.login.authorized)
+
   const dispatch = useAppDispatch()
   useEffect(() => {
-    localStorage.setItem('imUrl', (imUrl || '#e2e2e2'))
-    localStorage.setItem('backGroundColor', (backGroundColor || '#e2e2e2'))
+    dispatch(initializedTC())
+    localStorage.setItem('imUrl', (imUrl || ''))
+    localStorage.setItem('backGroundColor', (backGroundColor || ''))
   }, [imUrl, backGroundColor])
 
   const clearErrorHandler = () => {
@@ -64,12 +100,17 @@ const App = () => {
   return <AppContainer imUrl={imUrl} backGroundColor={backGroundColor} onClick={clearErrorHandler}>
     <ChangeBackGroundColor setImUrlToNull={setImUrl} activeColor={backGroundColor} onClickEvent={setBackGroundColor}/>
     <InputChangeBackImage setBackGroundColor={setBackGroundColor} onEnterHandler={setImUrl}/>
-    <InputAddTaskListContainer/>
-    <TasksListsContainer/>
-    {taskListMW && <TaskListMWContainer/>}
-    {deleteWarningMW && <DeleteTlWarning/>}
-    {status === 'loading' && !mwShow && <div className={'preloader'}><Preloader/></div>}
+    {!initialized && <div className={'preloader'}><Preloader/></div>}
+    {authorized && <>
+      <InputAddTaskListContainer/>
+      <TasksListsContainer/>
+      {taskListMW && <TaskListMWContainer/>}
+      {deleteWarningMW && <DeleteTlWarning/>}
+    </>}
+    {(status === 'loading' && !mwShow) && <div className={'preloader'}><Preloader/></div>}
     {!mwShow && error && <div className={'error'}>{error}</div>}
+    {!authorized && <div className='login'><Login/></div>}
+    {authorized && <span className='logout' onClick={() => dispatch(logoutTC())}>Logout...</span>}
   </AppContainer>
 }
 
