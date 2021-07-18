@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import React from 'react'
 
 const LoginBlock = styled.div`
-  height: 50vh;
+  min-height: 50%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
