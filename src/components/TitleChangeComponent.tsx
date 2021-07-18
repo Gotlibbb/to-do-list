@@ -4,6 +4,9 @@ import React, { useState } from 'react'
 const Input = styled.input`
   &::placeholder {
     font-size: 1.5rem;
+    @media (max-width: 800px ) {
+        font-size: 1.2rem;
+      }
   }
 
   &:focus {
@@ -15,10 +18,13 @@ const Input = styled.input`
   outline: 0;
   background: transparent;
   border-bottom: 1px solid #5f656a;
-  width: 70%;
+  width: 90%;
   font-size: 2rem;
+  @media (max-width: 800px ) {
+        font-size: 1.8rem;
+      }
   margin: -1.5px -2px;
-
+  
 `
 
 type TaskTitleChangeComponentPropsType = {

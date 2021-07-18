@@ -11,8 +11,10 @@ import TaskList from './TaskList'
 const TaskListsBlock = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  margin-top: 60px;
+  align-items: flex-start;
+  @media (max-width: 800px) {
+    justify-content: center;
+  }
 `
 const TasksListsContainer = () => {
   const dispatch = useDispatch()

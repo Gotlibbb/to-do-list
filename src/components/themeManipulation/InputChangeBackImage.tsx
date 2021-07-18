@@ -14,7 +14,7 @@ const InputBlock = styled.div`
     font-size: 15px;
     padding: 0.2rem 0.5rem;
     border: none;
-    border-radius: 2rem;
+    border-radius: 0.5rem;
     width: 120px;
     outline: none;
     box-shadow: 0 0.1em 0.2em 1px rgba(34, 60, 80, 0.2) inset;

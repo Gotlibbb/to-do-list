@@ -13,6 +13,7 @@ const SureMWBlock = styled.div`
 
   div {
     font-size: 1.5rem;
+    margin: 15px;
   }
 
   span:hover {

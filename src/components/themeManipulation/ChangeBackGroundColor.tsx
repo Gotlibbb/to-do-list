@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 const ChangeBackGroundColorBlock = styled.div`
   position: absolute;
   right: 5px;
-  top: 5px;
+  top: 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -13,13 +13,15 @@ const ChangeBackGroundColorBlock = styled.div`
     box-shadow: 0 0.1em 0.2em 2px rgba(34, 60, 80, 0.4) inset;
   }
   div {
+    cursor: pointer;
     margin-right: 5px;
-    height: 50px;
-    width: 50px;
-    border-radius: 12.5px;
+    height: 25px;
+    width: 25px;
+    border-radius: 14px;
     margin-bottom: 3px;
-    box-shadow: 0 0.1em 0.2em 2px rgba(34, 60, 80, 0.4);
+    //box-shadow: 0 0.1em 0.2em 2px rgba(34, 60, 80, 0.4);
   }
+  
   
   .black {
     background: black;
