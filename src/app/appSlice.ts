@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { addTaskList } from '../features/tasksList/tasksListsSlice'
 import { RequestStatusType } from '../helpers/allTypes'
-import { authApi } from '../api/todoApi'
 import { tryCatchHandler } from '../helpers/helper'
 import { setAuthorized } from '../features/login/loginSlice'
+import { authApi } from '../api/authApi'
 
 export const initializedTC = createAsyncThunk(
   'app/setInitialized',
@@ -22,11 +22,13 @@ export type AppStateType = {
     initialized: boolean
   }
   currentTaskListId: string
-  modalWindowHandler: {
-    taskListMW: boolean
-    deleteWarningMW: boolean
-    errorMW: boolean
-  }
+  modalWindowHandler: ModalWindowsType
+}
+
+export type ModalWindowsType = {
+  taskListMW: boolean
+  deleteWarningMW: boolean
+  errorMW: boolean
 }
 
 const initialState: AppStateType = {

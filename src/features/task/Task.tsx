@@ -13,10 +13,14 @@ type TaskPropsType = {
 }
 
 const Task = (props: TaskPropsType) => {
-  const [checkbox, setCheckbox] = useState<boolean>(false)
   useEffect(() => {
-    setCheckbox((props.task.status === TaskStatuses.New && false) || (props.task.status === TaskStatuses.Completed && true))
+    setCheckbox(
+      (props.task.status === TaskStatuses.New && false) ||
+      (props.task.status === TaskStatuses.Completed && true)
+    )
   }, [props.task.status])
+
+  const [checkbox, setCheckbox] = useState<boolean>(false)
   const [showChangeIn, setShowChangeIn] = useState<boolean>(false)
 
   const changeStatus = (val: boolean) => {
@@ -33,16 +37,30 @@ const Task = (props: TaskPropsType) => {
   }
 
   return <TaskBlock preview={props.preview}>
-    {(!props.preview && showChangeIn && <TitleChangeComponent
-      hidden={() => setShowChangeIn(false)}
-      initTitle={props.task.title}
-      updateTitle={changeTask}/>) ||
-    (checkbox ? <s>{props.task.title}</s> : <span>{props.task.title}</span>)}
+
+    {(!props.preview && showChangeIn &&
+      <TitleChangeComponent
+        hidden={() => setShowChangeIn(false)}
+        initTitle={props.task.title}
+        updateTitle={changeTask}/>) ||
+    (checkbox ?
+      <s>{props.task.title}</s> :
+      <span>{props.task.title}</span>)
+    }
+
     {!showChangeIn && <div className={'buttonBlock'}>
-      <Checkbox checked={checkbox} changeStatus={changeStatus} id={props.task.id}/>
-      <IconComponent iconType={'delete'} onClickEvent={() => props.removeTask(props.task)}/>
-      {!props.preview && <IconComponent iconType={'change'} onClickEvent={() => setShowChangeIn(true)}/>}
+      <Checkbox
+        checked={checkbox}
+        changeStatus={changeStatus}
+        id={props.task.id}/>
+      <IconComponent
+        iconType={'delete'}
+        onClickEvent={() => props.removeTask(props.task)}/>
+      {!props.preview && <IconComponent
+        iconType={'change'}
+        onClickEvent={() => setShowChangeIn(true)}/>}
     </div>}
+
   </TaskBlock>
 }
 

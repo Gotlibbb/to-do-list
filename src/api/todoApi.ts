@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { TaskListTypeApi, TaskPriorities, TaskStatuses, TaskType } from '../helpers/allTypes'
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.1/',
   withCredentials: true,
   headers: {
@@ -54,29 +54,5 @@ export const todoApi = {
   },
   putTasks (todolistId: string, taskId: string, model: TaskModelType) {
     return instance.put<ApiResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
-  }
-}
-
-export type LoginTypeApi = {
-  email: string
-  password: string
-  rememberMe: boolean
-  captcha?: boolean
-}
-
-export type authMeAPI = {
-  id: number
-  email: string
-  login: string
-}
-export const authApi = {
-  login (login: LoginTypeApi) {
-    return instance.post<ApiResponseType<{ UserId: number }>>('auth/login', login)
-  },
-  logout () {
-    return instance.delete<ApiResponseType>('auth/login')
-  },
-  authMe () {
-    return instance.get<ApiResponseType<authMeAPI>>('auth/me')
   }
 }

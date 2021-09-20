@@ -39,16 +39,17 @@ const TaskListMWContainer = () => {
   }, [])
 
   return <ModalWindow closeModalWindow={closeModalWindow}>
-    <TaskListMW changeTaskListTitle={changeTaskListTitleHandler}
-                removeTaskListWarning={removeTaskListHandler}
-                updateTask={updateTaskHandler}
-                removeTask={removeTaskHandler}
-                addTask={addTaskHandler}
-                taskList={currentTaskList}
-                tasks={tasks[currentTaskListId]}
-                error={error}
-                serverStatus={status}
-                clearError={clearErrorHandler}
+    <TaskListMW
+      changeTaskListTitle={changeTaskListTitleHandler}
+      removeTaskListWarning={removeTaskListHandler}
+      updateTask={updateTaskHandler}
+      removeTask={removeTaskHandler}
+      addTask={addTaskHandler}
+      taskList={currentTaskList}
+      tasks={tasks[currentTaskListId]}
+      error={error}
+      serverStatus={status}
+      clearError={clearErrorHandler}
     />
   </ModalWindow>
 }

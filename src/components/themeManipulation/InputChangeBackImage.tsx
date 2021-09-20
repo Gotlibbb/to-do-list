@@ -28,18 +28,22 @@ type InputChangeBackImagePropsType = {
 
 const InputChangeBackImage = (props: InputChangeBackImagePropsType) => {
   const [inpValue, setInpValue] = useState<string>('')
+
+  const onEnterPress = (e: any) => {
+    if (e.key === 'Enter') {
+      props.onEnterHandler(e.currentTarget.value)
+      props.setBackGroundColor(e.currentTarget.value[e.currentTarget.value.length - 4] !== '.' ? e.currentTarget.value : '#e2e2e2')
+      setInpValue('')
+    }
+  }
+
   return <InputBlock>
-    <input type="text"
-           placeholder="Url pic or color... "
-           value={inpValue}
-           onChange={e => setInpValue(e.target.value)}
-           onKeyPress={(e) => {
-             if (e.key === 'Enter') {
-               props.onEnterHandler(e.currentTarget.value)
-               props.setBackGroundColor(e.currentTarget.value[e.currentTarget.value.length - 4] !== '.' ? e.currentTarget.value : '#e2e2e2')
-               setInpValue('')
-             }
-           }}/>
+    <input
+      type='text'
+      placeholder='Url pic or color... '
+      value={inpValue}
+      onChange={e => setInpValue(e.target.value)}
+      onKeyPress={onEnterPress}/>
   </InputBlock>
 }
 

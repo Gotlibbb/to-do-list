@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { setStatus } from '../../app/appSlice'
-import { authApi, LoginTypeApi } from '../../api/todoApi'
 import { tryCatchHandler } from '../../helpers/helper'
+import { authApi, LoginTypeApi } from '../../api/authApi'
 
 export const loginTC = createAsyncThunk(
   'login/setLogin',

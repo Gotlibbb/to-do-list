@@ -41,8 +41,8 @@ const Login = () => {
         </a>
       </p>
       <p>or use common test account credentials:</p>
-      <p>Email: test17031@mail.ru</p>
-      <p>Password: 23ycyOTtiBA)</p>
+      <p>Email: free@samuraijs.com</p>
+      <p>Password: free</p>
     </div>
   </LoginBlock>
 }

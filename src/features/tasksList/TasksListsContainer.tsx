@@ -4,7 +4,7 @@ import { setCurrentTaskListId, toggleDeleteWarningMW, toggleTaskListMW } from '.
 import { useAppSelector } from '../../helpers/hooks'
 import { removeTaskTC, TasksStateType, updateTaskTC } from '../task/tasksSlice'
 import { setTaskListsTC } from './tasksListsSlice'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import TaskList from './TaskList'
 
@@ -49,8 +49,8 @@ const TasksListsContainer = () => {
     setInProcessTaskListId(TaskListId)
   }, [])
 
-  return <TaskListsBlock>
-    {taskLists && taskLists.map((t) => {
+  const memoTaskLists = useMemo(() => {
+    return taskLists && taskLists.map((t) => {
       return <TaskList key={t.id}
                        taskList={t}
                        removeTask={removeTaskHandler}
@@ -60,7 +60,11 @@ const TasksListsContainer = () => {
                        setInProcessTaskList={setInProcessTaskList}
                        showWarningMW={showDeleteWarningMWHandler}
                        showModalWindowTaskList={showModalWindowTaskList}/>
-    })}
+    })
+  }, [taskLists, tasks])
+
+  return <TaskListsBlock>
+    {memoTaskLists}
   </TaskListsBlock>
 }
 

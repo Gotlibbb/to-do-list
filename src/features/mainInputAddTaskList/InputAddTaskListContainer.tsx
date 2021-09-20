@@ -13,9 +13,11 @@ const InputAddTaskListContainer = () => {
     dispatch(addTaskListsTC(title))
   }
 
-  return <InputAddTaskList taskListCount={taskListCount}
-                           setError={(error) => dispatch(setError({ error }))}
-                           onEnterHandler={onEnterHandler}/>
+  return <InputAddTaskList
+    taskListCount={taskListCount}
+    setError={(error) => dispatch(setError({ error }))}
+    onEnterHandler={onEnterHandler}
+  />
 }
 
 export default React.memo(InputAddTaskListContainer)

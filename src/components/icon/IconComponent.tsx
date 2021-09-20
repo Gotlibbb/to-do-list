@@ -8,18 +8,19 @@ import plus from './plus.png'
 import styled, { css } from 'styled-components'
 
 const Img = styled.img`
-    ${(props: {width?:string}) => props.width ? css`width: ${props.width};` : css`width: 22px;`}
-    opacity: 0.5;
-    cursor: pointer;
-    &:hover {
+  ${(props: { width?: string }) => props.width ? css`width: ${props.width};` : css`width: 22px;`}
+  opacity: 0.5;
+  cursor: pointer;
+
+  &:hover {
     opacity: 0.4;
-    }
+  }
 `
 
 type IconComponentPropsType = {
-  iconType : 'cancel' | 'ok' | 'delete' | 'change' | 'fullScreen' | 'plus'
+  iconType: 'cancel' | 'ok' | 'delete' | 'change' | 'fullScreen' | 'plus'
   onClickEvent?: () => void
-  width? : string
+  width?: string
 }
 
 const IconComponent = (props: IconComponentPropsType) => {
@@ -31,7 +32,11 @@ const IconComponent = (props: IconComponentPropsType) => {
     (props.iconType === 'plus' && plus) ||
     (props.iconType === 'delete' && rubbish)
 
-  return <Img width={props.width} onClick={props.onClickEvent} src={icon || ''} alt={props.iconType} />
+  return <Img
+    width={props.width}
+    onClick={props.onClickEvent}
+    src={icon || ''}
+    alt={props.iconType}/>
 }
 
 export default React.memo(IconComponent)

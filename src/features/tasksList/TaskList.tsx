@@ -19,25 +19,43 @@ type TaskListPrevPropsType = {
 
 const TaskList = (props: TaskListPrevPropsType) => {
   const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(setTasksTC({ taskListId: props.taskList.id }))
   }, [props.taskList.id])
 
-  return <TaskListBlock inProcessTaskListId={props.inProcessTaskListId} taskListId={props.taskList.id}>
+  return <TaskListBlock
+    inProcessTaskListId={props.inProcessTaskListId}
+    taskListId={props.taskList.id}>
     <div>
       <div className={'titleBlock'}>
         <h2>{props.taskList.title}</h2>
-        <IconComponent iconType={'delete'} onClickEvent={() => props.showWarningMW(props.taskList.id)}/>
+        <IconComponent
+          iconType={'delete'}
+          onClickEvent={() => props.showWarningMW(props.taskList.id)}/>
       </div>
-      {props.tasks && props.tasks.map(t => <Task preview key={t.id} task={t} removeTask={props.removeTask}
-                                                 updateTask={props.updateTask}/>)}
+      {props.tasks && props.tasks.map(t =>
+        <Task
+          preview
+          key={t.id}
+          task={t}
+          removeTask={props.removeTask}
+          updateTask={props.updateTask}/>
+      )}
     </div>
     <div className={'taskListTools'}>
       {props.inProcessTaskListId === props.taskList.id ?
-        <span onClick={() => props.setInProcessTaskList('')}>In processing... </span> :
-        <IconComponent iconType={'plus'} onClickEvent={() => props.setInProcessTaskList(props.taskList.id)}/>}
+        <span onClick={() => props.setInProcessTaskList('')}>
+          In processing...
+        </span> :
+        <IconComponent
+          iconType={'plus'}
+          onClickEvent={() => props.setInProcessTaskList(props.taskList.id)}/>
+      }
 
-      <IconComponent iconType={'fullScreen'} onClickEvent={() => props.showModalWindowTaskList(props.taskList.id)}/>
+      <IconComponent
+        iconType={'fullScreen'}
+        onClickEvent={() => props.showModalWindowTaskList(props.taskList.id)}/>
     </div>
   </TaskListBlock>
 }
