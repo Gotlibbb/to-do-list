@@ -2,7 +2,7 @@
 
 
 ### Дизайн придуман с нуля.
-### Библиотеки : React, Redux-tolkit, Eslint, Axios, Styled-Component
+### Библиотеки : React, Redux-tolkit, Eslint, Axios, Styled-Components
 
 ![image](https://user-images.githubusercontent.com/70148369/126075660-e2440625-efe7-43b9-a2fe-8a2807255f58.png)
 
