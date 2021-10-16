@@ -42,7 +42,7 @@ const TasksListsContainer = () => {
     dispatch(setCurrentTaskListId({ id }))
   }, [])
 
-  const [inProcessTaskListId, setInProcessTaskListId] = useState(localStorage.getItem('inProcess') || '')
+  const [inProcessTaskListId, setInProcessTaskListId] = useState(localStorage['inProcess'] || '')
 
   const setInProcessTaskList = useCallback((TaskListId: string) => {
     localStorage.setItem('inProcess', TaskListId)
@@ -61,7 +61,7 @@ const TasksListsContainer = () => {
                        showWarningMW={showDeleteWarningMWHandler}
                        showModalWindowTaskList={showModalWindowTaskList}/>
     })
-  }, [taskLists, tasks])
+  }, [taskLists, tasks, inProcessTaskListId])
 
   return <TaskListsBlock>
     {memoTaskLists}
