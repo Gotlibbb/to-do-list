@@ -2,7 +2,7 @@
 
 
 ### Дизайн придуман с нуля.
-### Библиотеки : React, Redux-tolkit, Eslint, Axios, Styled-Components
+### Библиотеки : React, Redux-toolkit, Eslint, Axios, Styled-Components
 
 ![image](https://user-images.githubusercontent.com/70148369/126075660-e2440625-efe7-43b9-a2fe-8a2807255f58.png)
 
@@ -15,7 +15,7 @@
 - Использованы самописные хуки.
 - Логинизация.
 - Смена заднего фона, поставить фото или написать/выбрать цвет (реализовано с помощью LocalStorage).
-- Оптимизировация (useCallback, React.memo).
+- Оптимизаация (useCallback, React.memo).
 - Обработка ошибок, анимация состояния.
 
 Проект задеплоен : https://gotlibbb.github.io/to-do-list/
